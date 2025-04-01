@@ -1,5 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
+DotNetEnv.Env.Load();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -8,6 +10,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+Console.WriteLine( $"Hola {builder.Configuration[key: "HOLA"]}");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
